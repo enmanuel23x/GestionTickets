@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Col, DatePicker, Divider, InputNumber, Row, Select, Space, Table, Typography, Tabs, Empty} from 'antd';
+import {Button, List, Col, DatePicker, Divider, InputNumber, Row, Select, Space, Table, Typography, Tabs, Empty} from 'antd';
 import {FileTextOutlined, FileSearchOutlined} from '@ant-design/icons';
 const { TabPane } = Tabs;
 
@@ -55,7 +55,9 @@ const Report = () => {
       tags: ['cool', 'teacher'],
     },
   ];
-
+  const list = [
+    ["Nombre", "Nombre de prueba"], ["Cliente", "Cliente de prueba"]
+  ];
   let locale = {
        emptyText: (<Empty description={
        <span>
@@ -95,13 +97,19 @@ const Report = () => {
 
        </Select>
 
-     <Table
-         columns={columns}
-         locale={locale}
-         dataSource={data}
-         pagination={false}
-
-     />
+       <>
+    <Divider orientation="left">Reporte específico</Divider>
+    <List
+      header={<div>Ticket 0000</div>}
+      bordered
+      dataSource={list}
+      renderItem={item => (
+        <List.Item>
+          <Typography.Text mark> {item[0]} </Typography.Text> {item[1]}
+        </List.Item>
+      )}
+    />
+  </>
 
   </TabPane>
 </Tabs>
