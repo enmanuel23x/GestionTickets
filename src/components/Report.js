@@ -4,6 +4,9 @@ import {FileTextOutlined, FileSearchOutlined} from '@ant-design/icons';
 const { TabPane } = Tabs;
 
 const Report = () => {
+  const [list, setList] = useState([]);
+  const [data, setData] = useState([]);
+
   const columns = [
     {
       title: 'Name',
@@ -32,52 +35,27 @@ const Report = () => {
     },
   ];
 
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
-  const list = [
-    ["Nombre", "Nombre de prueba"], ["Cliente", "Cliente de prueba"]
-  ];
-  let locale = {
+
+  // setList([
+  //   ["Nombre", "Nombre de prueba"], ["Cliente", "Cliente de prueba"]
+  // ]);
+  let noTicket = {
        emptyText: (<Empty description={
        <span>
          Seleccione un ticket
        </span>
      }/>),
      };
+
+     let noData = {
+          emptyText: (<Empty description={
+          <span>
+            Sin Datos
+          </span>
+        }/>),
+        };
   return (
-    <Tabs defaultActiveKey="1">
-  <TabPane
-    tab={
-      <span>
-        <FileTextOutlined/>
-        Reporte General
-      </span>
-    }
-    key="1"
-  >
-    <Table columns={columns} dataSource={data} pagination={false} size="small"/>
-  </TabPane>
+    <Tabs>
   <TabPane
     tab={
       <span>
@@ -85,12 +63,12 @@ const Report = () => {
         Reporte específico
       </span>
     }
-    key="2"
+    key="1"
   >
   <Select
            showSearch
            style={{ width: 200 }}
-           placeholder="Seleccione una solicitud"
+           placeholder="Seleccione un ticket"
            optionFilterProp="children"
 
        >
@@ -100,12 +78,13 @@ const Report = () => {
        <>
     <Divider orientation="left">Reporte específico</Divider>
     <List
+      locale={noTicket}
       header={<div>Ticket 0000</div>}
       bordered
       dataSource={list}
       renderItem={item => (
         <List.Item>
-          <Typography.Text mark> {item[0]} </Typography.Text> {item[1]}
+          <Typography.Text strong> {item[0]}: </Typography.Text> {item[1]}
         </List.Item>
       )}
     />
