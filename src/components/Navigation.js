@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import './assets/css/navigation.css';
-import Report from './Report'
+import Ticket from './Ticket'
 
 
 //import keycloak from '../config/keycloak';
@@ -45,7 +45,7 @@ class SiderMenu extends React.Component {
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} >
           <Menu.Item key="1" icon={<FileTextOutlined />} onClick={() => this.setState({selected: 1})} className="customclass">
           Incidencias
-          </Menu.Item>          
+          </Menu.Item>
       </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -63,7 +63,7 @@ class SiderMenu extends React.Component {
 
       }}
   >
-   {this.state.selected === 1 ? <Report/> : null}
+   {this.state.selected === 1 ? <Ticket/> : null}
   </Content>
    <Footer style={{ textAlign: 'center' }}>Intelix Synergy © 2020</Footer>
       </Layout>
