@@ -45,10 +45,7 @@ class SiderMenu extends React.Component {
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} >
           <Menu.Item key="1" icon={<FileTextOutlined />} onClick={() => this.setState({selected: 1})} className="customclass">
           Incidencias
-          </Menu.Item>
-          <Menu.Item key="4" icon={<LogoutOutlined />} className="customclass">
-              Salir
-          </Menu.Item>
+          </Menu.Item>          
       </Menu>
       </Sider>
       <Layout className="site-layout">
