@@ -12,8 +12,8 @@ import Ticket from './Ticket'
 
 // Icons
 import {
-  LogoutOutlined,
-  FileTextOutlined,
+  // LogoutOutlined,
+  // FileTextOutlined,
   FileSearchOutlined
 } from '@ant-design/icons';
 // import config from "../../config/config";
@@ -43,7 +43,7 @@ class SiderMenu extends React.Component {
           <a href="/">                    <img src={require('./assets/img/logo.png')} style={{paddingTop: "20px", paddingLeft:"20px", paddingBottom:"20px"}} alt="logo" />
           </a>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} >
-          <Menu.Item key="1" icon={<FileTextOutlined />} onClick={() => this.setState({selected: 1})} className="customclass">
+          <Menu.Item key="1" icon={<FileSearchOutlined />} onClick={() => this.setState({selected: 1})} className="customclass">
           Incidencias
           </Menu.Item>
       </Menu>
