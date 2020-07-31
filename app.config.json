@@ -1,0 +1,10 @@
+{
+    apps : [
+      {
+        name      : "Incidencias-frontend",
+        script    : "npx",
+        interpreter: "none",
+        args: "npm start"
+      }
+    ]
+  }
