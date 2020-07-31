@@ -2,8 +2,9 @@ import React from 'react';
 import { Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import './assets/css/navigation.css';
-import Ticket from './Ticket'
-
+import Ticket from './Ticket';
+import Incidents from './Incidents';
+import Unified from './Unified';
 
 //import keycloak from '../config/keycloak';
 
@@ -13,7 +14,7 @@ import Ticket from './Ticket'
 // Icons
 import {
   // LogoutOutlined,
-  // FileTextOutlined,
+  FileTextOutlined,
   FileSearchOutlined
 } from '@ant-design/icons';
 // import config from "../../config/config";
@@ -27,6 +28,7 @@ import {
 // });
 const { Title } = Typography;
 const { Header, Sider, Content, Footer } = Layout;
+const { SubMenu } = Menu;
 
 class SiderMenu extends React.Component {
   state = {
@@ -46,6 +48,14 @@ class SiderMenu extends React.Component {
           <Menu.Item key="1" icon={<FileSearchOutlined />} onClick={() => this.setState({selected: 1})} className="customclass">
           Incidencias
           </Menu.Item>
+          <SubMenu key="sub1" icon={<FileTextOutlined/>} title="Reportes">
+              <Menu.Item key="2" onClick={() => this.setState({selected: 2})} className="customclass">
+                Incidencias
+              </Menu.Item>
+              <Menu.Item key="3" onClick={() => this.setState({selected: 3})} className="customclass">
+                Unificación
+              </Menu.Item>
+            </SubMenu>
       </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -64,6 +74,8 @@ class SiderMenu extends React.Component {
       }}
   >
    {this.state.selected === 1 ? <Ticket/> : null}
+   {this.state.selected === 2 ? <Incidents/> : null}
+   {this.state.selected === 3 ? <Unified/> : null}
   </Content>
    <Footer style={{ textAlign: 'center' }}>Intelix Synergy © 2020</Footer>
       </Layout>
