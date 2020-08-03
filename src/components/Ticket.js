@@ -50,10 +50,8 @@ class Ticket extends React.Component {
     let data = []
     let entireList = []
     obj.setState({list: entireList[0]})
-    console.log(id)
     axiosInstance.get('/tickets/get_ticket/'+id)
     .then(async function (response) {
-      console.log(response.data)
       if (response.data !== "ERROR") {
         for (let [key, value] of Object.entries(response.data.glpi[0])) {
 
@@ -82,19 +80,12 @@ class Ticket extends React.Component {
         console.log("Error: ", error);
     })
     .then(function () {
-        // always executed
-        // console.log("Data successfully fetched")
     });
   }
 
     // test
     processTicket(){
       let obj = this;
-      console.log(obj.state.list)
-      console.log(obj.state.ticket_id)
-      var res = "";
-
-      //
       Swal.fire({
         title: 'Procesando Ticket',
         html: 'Espere un momento...',
@@ -103,36 +94,27 @@ class Ticket extends React.Component {
           Swal.showLoading()
           axiosInstance.get('/tickets/process_ticket/'+obj.state.ticket_id)
           .then(async function (response) {
-            console.log(response.data)
-            res = response.data
+            if (response.data === "LISTO"){
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Ticket correctamente procesado',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: response.data,
+
+              })
+            }
           })
           .catch(function (error) {
               // handle error
               console.log("Error: ", error);
           })
-          .then(function () {
-              // always executed
-              // console.log("Data successfully fetched")
-              console.log("Executed")
-              if (res === "LISTO"){
-                Swal.fire({
-                  position: 'top-end',
-                  icon: 'success',
-                  title: 'Ticket correctamente procesado',
-                  showConfirmButton: false,
-                  timer: 1500
-                })
-              } else {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: res,
-
-                })
-              }
-
-              Swal.close()
-          });
         }
       })
     }
