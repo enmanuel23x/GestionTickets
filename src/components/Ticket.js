@@ -1,8 +1,9 @@
 // Importing needed components
 import React from 'react';
-import {Button, List, Divider, Typography, Empty, Input, Modal} from 'antd';
+import {Button, List, Divider, Typography, Empty, Input} from 'antd';
 import config from '../config/config'
 import https from 'https';
+import Swal from 'sweetalert2'
 
 
 // Constants
@@ -22,7 +23,7 @@ const axiosInstance = axios.create({
 let noTicket = {
     emptyText: (<Empty description = {
         <span>
-          Buscar un Ticket ID
+          Busque un Ticket existente.
         </span>
       }
       />),
@@ -38,7 +39,6 @@ class Ticket extends React.Component {
           list: [],
           ticket_id: '',
           buttonState: false,
-          visible: false
         };
         this.getTicketInfo = this.getTicketInfo.bind(this);
         this.processTicket = this.processTicket.bind(this);
@@ -90,32 +90,53 @@ class Ticket extends React.Component {
     // test
     processTicket(){
       let obj = this;
-
       console.log(obj.state.list)
       console.log(obj.state.ticket_id)
+      var res = "";
+
+      //
+      Swal.fire({
+        title: 'Procesando Ticket',
+        html: 'Espere un momento...',
+        timerProgressBar: true,
+        onBeforeOpen: () => {
+          Swal.showLoading()
+          axiosInstance.get('/tickets/process_ticket/'+obj.state.ticket_id)
+          .then(async function (response) {
+            console.log(response.data)
+            res = response.data
+          })
+          .catch(function (error) {
+              // handle error
+              console.log("Error: ", error);
+          })
+          .then(function () {
+              // always executed
+              // console.log("Data successfully fetched")
+              console.log("Executed")
+              if (res === "LISTO"){
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: 'Ticket correctamente procesado',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: res,
+
+                })
+              }
+
+              Swal.close()
+          });
+        }
+      })
     }
 
-
-
-    showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleOk = e => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  };
-
-  handleCancel = e => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  };
 
 render(){
   return (
@@ -144,19 +165,8 @@ render(){
       {this.state.buttonState === false ?
           <Button size="large" type="primary" style={{marginTop: 20}} disabled>Procesar</Button>
         :
-          <Button size="large" type="primary" style={{ backgroundColor: "#08979c", borderColor: "#08979c" , marginTop: 20}} onClick={this.showModal}> Procesar</Button>
+          <Button size="large" type="primary" style={{ backgroundColor: "#08979c", borderColor: "#08979c" , marginTop: 20}} onClick={this.processTicket}> Procesar</Button>
       }
-
-      <Modal
-         title="Procesamiento de tickets"
-         visible={this.state.visible}
-         onOk={this.handleOk}
-         onCancel={this.handleCancel}
-       >
-         <p>Eres Admin...</p>
-         <p>Eres Admin...</p>
-         <p>Eres Admin...</p>
-       </Modal>
       </div>
     )
 }
