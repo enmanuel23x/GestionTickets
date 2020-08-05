@@ -4,8 +4,6 @@ import 'antd/dist/antd.css';
 import './assets/css/navigation.css';
 import Ticket from './Ticket';
 import Incidents from './Incidents';
-import Unified from './Unified';
-
 //import keycloak from '../config/keycloak';
 
 
@@ -50,10 +48,7 @@ class SiderMenu extends React.Component {
           </Menu.Item>
           <SubMenu key="sub1" icon={<FileTextOutlined/>} title="Reportes">
               <Menu.Item key="2" onClick={() => this.setState({selected: 2})} className="customclass">
-                Incidencias
-              </Menu.Item>
-              <Menu.Item key="3" onClick={() => this.setState({selected: 3})} className="customclass">
-                Unificación
+                Lista de Incidencias
               </Menu.Item>
             </SubMenu>
       </Menu>
@@ -75,7 +70,6 @@ class SiderMenu extends React.Component {
   >
    {this.state.selected === 1 ? <Ticket/> : null}
    {this.state.selected === 2 ? <Incidents/> : null}
-   {this.state.selected === 3 ? <Unified/> : null}
   </Content>
    <Footer style={{ textAlign: 'center' }}>Intelix Synergy © 2020</Footer>
       </Layout>
