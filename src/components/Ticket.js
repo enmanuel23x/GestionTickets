@@ -92,7 +92,7 @@ class Ticket extends React.Component {
         timerProgressBar: true,
         onBeforeOpen: () => {
           Swal.showLoading()
-          axiosInstance.get('/tickets/process_ticket/'+obj.state.ticket_id)
+          axiosInstance.get('/tickets/create_ticket/'+obj.state.ticket_id)
           .then(async function (response) {
             if (response.data === "LISTO"){
               Swal.fire({
