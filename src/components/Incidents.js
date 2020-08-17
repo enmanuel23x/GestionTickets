@@ -51,22 +51,35 @@ class Incidents extends React.Component {
 
       charge() {
       const data = [], obj = this;
-      let req_dateObj, req, close, close_dateObj;
+      let req_dateObj, close_dateObj, sol_date = null, closing_date = null;
         axiosInstance.get('/tickets/get_tickets')
         .then(async function (response) {
           // console.log(response.data.tickets)
           for (let i = 0; i < response.data.tickets.length; i++) {
-            req_dateObj = new Date(response.data.tickets[i].tic_sol_date.split("T")[0]);
-            req = moment(req_dateObj).add(1, 'day').format("DD-MM-YYYY");
-            close_dateObj = new Date(response.data.tickets[i].tic_closing_date.split("T")[0]);
-            close = moment(close_dateObj).add(1, 'day').format("DD-MM-YYYY");
+            //  Request date
+              sol_date = response.data.tickets[i].tic_sol_date;
+              if (sol_date !== null) {
+                  req_dateObj = new Date(response.data.tickets[i].tic_sol_date.split("T")[0]);
+                  sol_date = moment(req_dateObj).add(1, 'day').format("DD-MM-YYYY");
+              } else {
+                  sol_date = "Sin Fecha"
+              }
+            // Closing date
+              closing_date = response.data.tickets[i].tic_closing_date;
+              if (closing_date !== null) {
+                  close_dateObj = new Date(response.data.tickets[i].tic_closing_date.split("T")[0]);
+                  closing_date = moment(close_dateObj).add(1, 'day').format("DD-MM-YYYY");
+              } else {
+                  closing_date = "Sin Fecha"
+              }
+
             data.push({
                 client: response.data.tickets[i].tic_branch,
                 id: response.data.tickets[i].tic_id,
                 title: response.data.tickets[i].tic_title,
                 colab: response.data.tickets[i].tic_assigned_to,
-                req_date: req,
-                close_date: close,
+                req_date: sol_date,
+                close_date: closing_date,
                 hours: response.data.tickets[i].tic_clockify_time
             });
         }
@@ -180,17 +193,17 @@ class Incidents extends React.Component {
           ...this.getColumnSearchProps('colab',"Colaborador"),
       },
       {
-          title: 'Fecha Solicitud',
+          title: 'F. Solicitud',
           dataIndex: 'req_date',
           key: 'req_date',
       },
       {
-          title: 'Fecha Cierre',
+          title: 'F. Cierre',
           dataIndex: 'close_date',
           key: 'close_date',
       },
       {
-          title: 'Horas Invertidas',
+          title: 'H. Invertidas',
           dataIndex: 'hours',
           key: 'hours',
       },
