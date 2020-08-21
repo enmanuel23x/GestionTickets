@@ -1,6 +1,6 @@
 // Importing needed components
 import React from 'react';
-import {Button, List, Divider, Typography, Empty, Input} from 'antd';
+import {Button, List, Divider, Typography, Empty, Input, Modal} from 'antd';
 import config from '../config/config'
 import https from 'https';
 import Swal from 'sweetalert2'
@@ -36,12 +36,24 @@ class Ticket extends React.Component {
   constructor(props) {
         super(props);
         this.state = {
-          list: [],
-          ticket_id: '',
-          buttonState: false,
+            list: [],
+            ticket_id: '',
+            buttonState: false,
+
+            visible: false,
+            confirmLoading: false,
+
+        //
+            modalbutton: true,
+
+
+            ticketHelper: '',
+            helperCi: '',
         };
         this.getTicketInfo = this.getTicketInfo.bind(this);
         this.processTicket = this.processTicket.bind(this);
+        this.handleOk = this.handleOk.bind(this);
+
       };
     // Functions
     // Get ticket info and insert into QA database (only if applies)
@@ -57,6 +69,7 @@ class Ticket extends React.Component {
 
           if (key === "Id Ticket"){
             obj.setState({ticket_id: value})
+            obj.setState({ticketHelper: value})
           }
 
           if (key !== "Descripción"){
@@ -69,9 +82,10 @@ class Ticket extends React.Component {
         obj.setState({list: entireList[0]})
         // enable button
         obj.setState({buttonState: true})
+
       } else {
           obj.setState({ticket_id: "Ticket no encontrado"})
-          // disabel button
+          // disable button
           obj.setState({buttonState: false})
       }
     })
@@ -119,6 +133,79 @@ class Ticket extends React.Component {
       })
     }
 
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+
+    handleOk(){
+        this.setState({
+            confirmLoading: true,
+        });
+        console.log(this.state.ticketHelper+'A'+this.state.helperCi)
+        // let obj = this;
+        // axiosInstance.get('/tickets/create_ticket/'+obj.state.ticket_id+'A'+obj.state.helperCi)
+        //     .then(async function (response) {
+        //         if (response.data === "LISTO"){
+        //             obj.setState({
+        //                 visible: false,
+        //                 confirmLoading: false,
+        //             });
+        //             Swal.fire({
+        //                 position: 'top-end',
+        //                 icon: 'success',
+        //                 title: 'Ticket correctamente procesado',
+        //                 showConfirmButton: false,
+        //                 timer: 1500
+        //             })
+        //         } else {
+        //             obj.setState({
+        //                 visible: false,
+        //                 confirmLoading: false,
+        //             });
+        //             Swal.fire({
+        //                 icon: 'error',
+        //                 title: 'Oops...',
+        //                 text: response.data,
+        //
+        //             })
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         // handle error
+        //         console.log("Error: ", error);
+        //     })
+    };
+
+    handleCancel = () => {
+        console.log('Clicked cancel button');
+        this.setState({
+            visible: false,
+        });
+    };
+
+    onChangeTicket = e => {
+        this.setState({
+            ticketHelper: e.target.value
+        })
+
+    };
+    onChangeCi = e => {
+        this.setState({
+            helperCi: e.target.value
+        })
+    };
+
+
+    emptyValues(){
+        let disabled = false
+        if (this.state.helperCi === "" && this.state.ticketHelper === ""){
+            disabled = true
+        }
+        return disabled
+    }
+
 
 render(){
   return (
@@ -149,6 +236,31 @@ render(){
         :
           <Button size="large" type="primary" style={{ backgroundColor: "#08979c", borderColor: "#08979c" , marginTop: 20}} onClick={this.processTicket}> Procesar</Button>
       }
+        <Button size="large" type="primary" style={{
+            backgroundColor: "#08979c",
+            borderColor: "#08979c",
+            marginTop: 20,
+            marginLeft: 10
+        }} onClick={this.showModal}>
+            Registrar apoyo
+        </Button>
+        <Modal
+            title="Ayudante de Incidencias"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            confirmLoading={this.state.confirmLoading}
+            okButtonProps={{ disabled: this.emptyValues()}}
+            onCancel={this.handleCancel}
+            okText="Procesar"
+            cancelText="Cancelar"
+        >
+            {this.state.ticketHelper === "" ?
+                <Input placeholder="Ticket" allowClear onChange={this.onChangeTicket} style={{marginBottom: 20}}/>
+                :
+                <Input placeholder="Ticket" allowClear onChange={this.onChangeTicket} style={{marginBottom: 20}} value={this.state.ticketHelper}/>
+            }
+            <Input placeholder="Cédula" allowClear onChange={this.onChangeCi} />
+        </Modal>
       </div>
     )
 }
