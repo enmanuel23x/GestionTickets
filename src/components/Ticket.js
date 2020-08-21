@@ -144,38 +144,38 @@ class Ticket extends React.Component {
             confirmLoading: true,
         });
         console.log(this.state.ticketHelper+'A'+this.state.helperCi)
-        // let obj = this;
-        // axiosInstance.get('/tickets/create_ticket/'+obj.state.ticket_id+'A'+obj.state.helperCi)
-        //     .then(async function (response) {
-        //         if (response.data === "LISTO"){
-        //             obj.setState({
-        //                 visible: false,
-        //                 confirmLoading: false,
-        //             });
-        //             Swal.fire({
-        //                 position: 'top-end',
-        //                 icon: 'success',
-        //                 title: 'Ticket correctamente procesado',
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-        //             })
-        //         } else {
-        //             obj.setState({
-        //                 visible: false,
-        //                 confirmLoading: false,
-        //             });
-        //             Swal.fire({
-        //                 icon: 'error',
-        //                 title: 'Oops...',
-        //                 text: response.data,
-        //
-        //             })
-        //         }
-        //     })
-        //     .catch(function (error) {
-        //         // handle error
-        //         console.log("Error: ", error);
-        //     })
+        let obj = this;
+        axiosInstance.get('/tickets/create_ticket/'+obj.state.ticketHelper+'A'+obj.state.helperCi)
+            .then(async function (response) {
+                if (response.data === "LISTO"){
+                    obj.setState({
+                        visible: false,
+                        confirmLoading: false,
+                    });
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Ayudante correctamente procesado',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                } else {
+                    obj.setState({
+                        visible: false,
+                        confirmLoading: false,
+                    });
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: response.data,
+
+                    })
+                }
+            })
+            .catch(function (error) {
+                // handle error
+                console.log("Error: ", error);
+            })
     };
 
     handleCancel = () => {
@@ -196,15 +196,6 @@ class Ticket extends React.Component {
             helperCi: e.target.value
         })
     };
-
-
-    emptyValues(){
-        let disabled = false
-        if (this.state.helperCi === "" && this.state.ticketHelper === ""){
-            disabled = true
-        }
-        return disabled
-    }
 
 
 render(){
@@ -249,7 +240,7 @@ render(){
             visible={this.state.visible}
             onOk={this.handleOk}
             confirmLoading={this.state.confirmLoading}
-            okButtonProps={{ disabled: this.emptyValues()}}
+            okButtonProps={{ disabled: this.state.ticketHelper === "" || this.state.helperCi === ""}}
             onCancel={this.handleCancel}
             okText="Procesar"
             cancelText="Cancelar"
