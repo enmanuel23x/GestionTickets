@@ -2,12 +2,11 @@ import React from 'react';
 import { Layout, Menu, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import './assets/css/navigation.css';
-import Ticket from './Ticket';
-import Incidents from './Incidents';
-//import keycloak from '../config/keycloak';
-
-
 // Components
+import Ticket from './Ticket';
+//  Reports
+import Incidents from './Incidents';
+import Unregistered from './Unregistered';
 
 // Icons
 import {
@@ -15,22 +14,13 @@ import {
   FileTextOutlined,
   FileSearchOutlined
 } from '@ant-design/icons';
-// import config from "../../config/config";
-// import https from 'https';
-// const axios = require('axios').default;
-// axios.defaults.baseURL = config.backURL;
-// const axiosInstance = axios.create({
-//     httpsAgent: new https.Agent({
-//         rejectUnauthorized: false
-//     })
-// });
+
 const { Title } = Typography;
 const { Header, Sider, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
 class SiderMenu extends React.Component {
   state = {
-      collapsed: false,
       selected: 1
   };
    //logout() {
@@ -39,7 +29,15 @@ class SiderMenu extends React.Component {
   render() {
       return (
           <Layout>
-          <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+          <Sider
+              breakpoint="lg" collapsedWidth="0"
+              onBreakpoint={broken => {
+                  // console.log(broken);
+              }}
+              onCollapse={(collapsed, type) => {
+                  // console.log(collapsed, type);
+              }}
+          >
           <a href="/">                    <img src={require('./assets/img/logo.png')} style={{paddingTop: "20px", paddingLeft:"20px", paddingBottom:"20px"}} alt="logo" />
           </a>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} >
@@ -49,6 +47,9 @@ class SiderMenu extends React.Component {
           <SubMenu key="sub1" icon={<FileTextOutlined/>} title="Reportes">
               <Menu.Item key="2" onClick={() => this.setState({selected: 2})} className="customclass">
                 Lista de Incidencias
+              </Menu.Item>
+              <Menu.Item key="3" onClick={() => this.setState({selected: 3})} className="customclass">
+                No Registrados
               </Menu.Item>
             </SubMenu>
       </Menu>
@@ -70,8 +71,9 @@ class SiderMenu extends React.Component {
   >
    {this.state.selected === 1 ? <Ticket/> : null}
    {this.state.selected === 2 ? <Incidents/> : null}
+   {this.state.selected === 3 ? <Unregistered/> : null}
   </Content>
-   <Footer style={{ textAlign: 'center' }}>Intelix Synergy © 2020</Footer>
+   <Footer style={{ textAlign: 'center', paddingTop: 0 }}>Intelix Synergy © 2020</Footer>
       </Layout>
       </Layout>
   );

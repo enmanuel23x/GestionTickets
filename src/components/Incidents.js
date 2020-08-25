@@ -10,9 +10,6 @@ import { SearchOutlined } from '@ant-design/icons';
 
 
 // Constants
-
-
-
 // Axios Defaults
 const axios = require('axios').default;
 axios.defaults.baseURL = config.backURL;
@@ -74,6 +71,7 @@ class Incidents extends React.Component {
               }
 
             data.push({
+                key: i,
                 client: response.data.tickets[i].tic_branch,
                 id: response.data.tickets[i].tic_id,
                 title: response.data.tickets[i].tic_title,
@@ -196,16 +194,20 @@ class Incidents extends React.Component {
           title: 'F. Solicitud',
           dataIndex: 'req_date',
           key: 'req_date',
+          width: "10%",
       },
       {
           title: 'F. Cierre',
           dataIndex: 'close_date',
           key: 'close_date',
+          width: "10%",
       },
       {
-          title: 'H. Invertidas',
+          title: 'H. H',
           dataIndex: 'hours',
           key: 'hours',
+          align: 'right',
+          width: "5%",
       },
     ];
 
