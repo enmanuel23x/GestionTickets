@@ -55,29 +55,29 @@ class Ticket extends React.Component {
         this.handleOk = this.handleOk.bind(this);
 
       };
-    componentDidMount(){
-        this.charge = this.charge.bind(this);
-        this.charge();
-    }
-    charge() {
-        axiosInstance.get('/')
-            .then(async function (response) {
-                // console.log(response.data)
-            })
-            .catch(function (error) {
-                // handle error
-                // console.log("Error: ", error);
-                Modal.error({
-                    title: 'Estamos experimentando algunos errores',
-                    content: 'Por favor avise al administrador del sistema.',
-                    okText: "Salir",
-                    onOk: function (){ window.close();}
-                });
-            })
-            .then(function () {
-                // always executed
-            });
-    }
+    // componentDidMount(){
+    //     this.charge = this.charge.bind(this);
+    //     this.charge();
+    // }
+    // charge() {
+    //     axiosInstance.get('/')
+    //         .then(async function (response) {
+    //             // console.log(response.data)
+    //         })
+    //         .catch(function (error) {
+    //             // handle error
+    //             // console.log("Error: ", error);
+    //             Modal.error({
+    //                 title: 'Estamos experimentando algunos errores',
+    //                 content: 'Por favor avise al administrador del sistema.',
+    //                 okText: "Salir",
+    //                 onOk: function (){ window.close();}
+    //             });
+    //         })
+    //         .then(function () {
+    //             // always executed
+    //         });
+    // }
     // Functions
     // Get ticket info and insert into QA database (only if applies)
     getTicketInfo(id){
